@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Book a Ride - Lux Transit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../static/css/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav-inner">
+        <a class="brand" href="LandingPage.html">
+          <span class="brand-mark"><i class="fas fa-bus"></i></span>
+          <span>Lux Transit</span>
+        </a>
+        <div class="nav-actions">
+          <button class="btn btn-outline" onclick="navigateTo('passenger-dashboard.html')">Dashboard</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container layout-main">
+      <button class="btn btn-ghost" onclick="history.back()"><i class="fas fa-arrow-left"></i> Back</button>
+
+      <div class="page-title">
+        <h1>Book Your Ride</h1>
+        <p>Search available coach trips and reserve a seat on your preferred route.</p>
+      </div>
+
+      <section class="card" style="margin:24px 0;">
+        <form id="searchForm" class="form-grid" onsubmit="searchTrips(event)">
+          <div class="grid grid-4">
+            <div class="field-group">
+              <label for="from" class="small">Departure</label>
+              <select id="from" class="field" required>
+                <option value="">Select city</option>
+                <option>Lagos</option>
+                <option>Abuja</option>
+                <option>Kano</option>
+                <option>Port Harcourt</option>
+                <option>Enugu</option>
+                <option>Ibadan</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label for="to" class="small">Destination</label>
+              <select id="to" class="field" required>
+                <option value="">Select city</option>
+                <option>Abuja</option>
+                <option>Lagos</option>
+                <option>Kano</option>
+                <option>Port Harcourt</option>
+                <option>Enugu</option>
+                <option>Ibadan</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label for="date" class="small">Travel Date</label>
+              <input id="date" type="date" class="field" value="2026-05-20" required />
+            </div>
+            <div class="field-group">
+              <label for="passengers" class="small">Passengers</label>
+              <select id="passengers" class="field">
+                <option>1 Passenger</option>
+                <option>2 Passengers</option>
+                <option>3 Passengers</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary" type="submit"><i class="fas fa-magnifying-glass"></i> Search Trips</button>
+        </form>
+      </section>
+
+      <section id="results"></section>
+    </main>
+
+    <script>
+      function navigateTo(path) {
+        window.location.href = path;
+      }
+
+      function searchTrips(event) {
+        event.preventDefault();
+        const resultsEl = document.getElementById('results');
+        resultsEl.innerHTML = '<div class="card">Searching available trips...</div>';
+
+        setTimeout(() => {
+          const from = document.getElementById('from').value;
+          const to = document.getElementById('to').value;
+          const date = document.getElementById('date').value;
+          const trips = availableRides.filter((ride) => ride.from === from && ride.to === to && ride.date === date);
+
+          if (!trips.length) {
+            resultsEl.innerHTML = `
+              <div class="card empty-state">
+                <h2>No rides found</h2>
+                <p class="muted">Try another date or route. This frontend is ready to load scheduled rides from the backend API when it is connected.</p>
+              </div>
+            `;
+            return;
+          }
+
+          let html = '<div class="section-head"><h2>Available Trips</h2><p>Select a trip to continue to confirmation.</p></div>';
+          trips.forEach((trip) => {
+            html += `
+              <article class="card trip-card">
+                <div>
+                  <span class="chip">${trip.seats} seats left</span>
+                  <div class="trip-route">
+                    <div><strong>${trip.departure}</strong><div class="small">Departure</div></div>
+                    <div class="route-line"></div>
+                    <div><strong>${trip.arrival}</strong><div class="small">Arrival</div></div>
+                  </div>
+                  <div class="muted">${trip.busType} - ${trip.busNumber} - NGN ${Number(trip.price).toLocaleString()}</div>
+                </div>
+                <button class="btn btn-primary" onclick="confirmBooking('${trip.id}')">Book Now</button>
+              </article>
+            `;
+          });
+          resultsEl.innerHTML = html;
+        }, 600);
+      }
+
+      function confirmBooking(tripId) {
+        window.location.href = 'confirm-booking.html?tripId=' + encodeURIComponent(tripId);
+      }
+
+      const availableRides = [
+        { id: 'RIDE001', from: 'Lagos', to: 'Abuja', date: '2026-05-20', departure: '07:00', arrival: '15:00', busType: 'Luxury Coach', busNumber: 'LXT-102', seats: 12, price: 8500, status: 'scheduled' },
+        { id: 'RIDE002', from: 'Port Harcourt', to: 'Lagos', date: '2026-05-21', departure: '09:00', arrival: '15:00', busType: 'Executive VIP', busNumber: 'LXT-220', seats: 8, price: 9500, status: 'scheduled' }
+      ];
+    </script>
+  </body>
+</html>

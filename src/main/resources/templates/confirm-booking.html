@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Confirm Booking - Lux Transit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../static/css/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav-inner">
+        <a class="brand" href="LandingPage.html">
+          <span class="brand-mark"><i class="fas fa-bus"></i></span>
+          <span>Lux Transit</span>
+        </a>
+      </div>
+    </header>
+
+    <main class="container layout-main">
+      <button class="btn btn-ghost" onclick="history.back()"><i class="fas fa-arrow-left"></i> Back to Search</button>
+
+      <div class="page-title">
+        <h1>Confirm Your Booking</h1>
+        <p>Review trip details before reserving your seat.</p>
+      </div>
+
+      <div class="layout-two" style="margin-top:24px;">
+        <section>
+          <article class="card" style="margin-bottom:16px;">
+            <h2>Trip Information</h2>
+            <div id="tripInfo" class="summary-list" style="margin-top:16px;">Loading trip details...</div>
+          </article>
+
+          <article class="card">
+            <h3>Important Information</h3>
+            <ul class="muted">
+              <li>Please arrive at the terminal 30 minutes before departure.</li>
+              <li>Valid identification is required for boarding.</li>
+              <li>Each passenger may bring one carry-on bag and one checked bag.</li>
+              <li>Booking confirmation will be sent to your email.</li>
+            </ul>
+          </article>
+        </section>
+
+        <aside class="card">
+          <h3>Booking Summary</h3>
+          <div id="summary" class="summary-list" style="margin-top:16px;">Loading...</div>
+          <button id="confirmBtn" class="btn btn-primary btn-block" style="margin-top:18px;">Confirm Booking</button>
+          <p class="small" style="text-align:center;">By confirming, you agree to Lux Transit terms and conditions.</p>
+        </aside>
+      </div>
+    </main>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const tripId = params.get('tripId') || 'TRIP001';
+      const availableRides = [
+        { id: 'RIDE001', from: 'Lagos', to: 'Abuja', date: '2026-05-20', departure: '07:00', arrival: '15:00', busType: 'Luxury Coach', busNumber: 'LXT-102', price: 8500 },
+        { id: 'RIDE002', from: 'Port Harcourt', to: 'Lagos', date: '2026-05-21', departure: '09:00', arrival: '15:00', busType: 'Executive VIP', busNumber: 'LXT-220', price: 9500 }
+      ];
+      const trip = availableRides.find((ride) => ride.id === tripId) || availableRides[0];
+      const passengers = 1;
+
+      function row(label, value) {
+        return `<div class="summary-row"><span class="muted">${label}</span><strong>${value}</strong></div>`;
+      }
+
+      document.getElementById('tripInfo').innerHTML = [
+        row('Trip ID', trip.id),
+        row('Route', `${trip.from} to ${trip.to}`),
+        row('Departure', trip.departure),
+        row('Arrival', trip.arrival),
+        row('Bus Type', trip.busType),
+        row('Bus Number', trip.busNumber)
+      ].join('');
+
+      document.getElementById('summary').innerHTML = [
+        row('Travel Date', trip.date),
+        row('Passengers', passengers),
+        row('Seat Fare', `NGN ${Number(trip.price).toLocaleString()}`),
+        row('Total', `NGN ${(Number(trip.price) * passengers).toLocaleString()}`)
+      ].join('');
+
+      document.getElementById('confirmBtn').addEventListener('click', function () {
+        this.disabled = true;
+        this.textContent = 'Confirming Booking...';
+        setTimeout(() => {
+          window.location.href = 'passenger-dashboard.html?message=' + encodeURIComponent('Booking confirmed. Check your upcoming rides.');
+        }, 800);
+      });
+    </script>
+  </body>
+</html>

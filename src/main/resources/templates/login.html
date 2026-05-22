@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login - Lux Transit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../static/css/styles.css" />
+  </head>
+  <body>
+    <main class="auth-page">
+      <section class="auth-shell">
+        <div class="auth-head">
+          <a class="brand" href="LandingPage.html">
+            <span class="brand-mark"><i class="fas fa-bus"></i></span>
+            <span>Lux Transit</span>
+          </a>
+          <h1>Welcome Back</h1>
+          <p class="muted">Login to manage trips, bookings, and ride status.</p>
+        </div>
+
+        <div class="card">
+          <button class="btn btn-ghost" onclick="navigateTo('LandingPage.html')"><i class="fas fa-arrow-left"></i> Back to Home</button>
+          <div id="message" class="message"></div>
+
+          <form id="loginForm" class="form-grid" onsubmit="handleLogin(event)">
+            <div class="field-group">
+              <label for="userType" class="small">Login As</label>
+              <select id="userType" class="field" required>
+                <option value="passenger">Passenger</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="email" class="small">Email Address</label>
+              <input id="email" type="email" class="field" autocomplete="email" required />
+            </div>
+
+            <div class="field-group">
+              <label for="password" class="small">Password</label>
+              <input id="password" type="password" class="field" autocomplete="current-password" required />
+            </div>
+
+            <div class="row" style="justify-content:space-between; align-items:center;">
+              <label class="row small"><input type="checkbox" /> Remember me</label>
+              <button type="button" class="btn btn-ghost" onclick="alert('Password reset flow')">Forgot password?</button>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-right-to-bracket"></i> Login</button>
+          </form>
+
+          <p class="small" style="text-align:center;">Do not have an account? <button class="btn btn-ghost" onclick="navigateTo('register.html')">Register here</button></p>
+        </div>
+
+        <aside class="demo-box">
+          <p><strong>Demo Credentials</strong></p>
+          <p><strong>Passenger:</strong> passenger@luxtraffic.ng / password123</p>
+          <p><strong>Admin:</strong> admin@luxtraffic.ng / admin123</p>
+        </aside>
+      </section>
+    </main>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const msg = params.get('message');
+      if (msg) {
+        const el = document.getElementById('message');
+        el.textContent = decodeURIComponent(msg);
+        el.style.display = 'block';
+      }
+
+      function navigateTo(path) {
+        window.location.href = path;
+      }
+
+      function handleLogin(event) {
+        event.preventDefault();
+        const userType = document.getElementById('userType').value;
+
+        const from = new URLSearchParams(window.location.search).get('from');
+        if (from) {
+          window.location.href = from + '.html';
+        } else if (userType === 'admin') {
+          window.location.href = 'admin-dashboard.html';
+        } else {
+          window.location.href = 'passenger-dashboard.html';
+        }
+      }
+    </script>
+  </body>
+</html>

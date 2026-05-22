@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lux Transit - Travel Across Nigeria</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../static/css/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav-inner">
+        <a class="brand" href="LandingPage.html" aria-label="Lux Transit home">
+          <span class="brand-mark"><i class="fas fa-bus"></i></span>
+          <span>Lux Transit</span>
+        </a>
+        <div class="nav-actions">
+          <button class="btn btn-outline" onclick="navigateTo('login.html')">Login</button>
+          <button class="btn btn-primary" onclick="navigateTo('register.html')">Register</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <p class="eyebrow"><i class="fas fa-location-dot"></i> Interstate transport across Nigeria</p>
+            <h1>Travel Across Nigeria In Comfort</h1>
+            <p>Book reliable luxury coach trips between major cities and manage reservations from one simple dashboard.</p>
+            <div class="hero-actions">
+              <button class="btn btn-primary" onclick="bookRideNow()"><i class="fas fa-ticket"></i> Book a Ride</button>
+              <button class="btn btn-outline" onclick="navigateTo('login.html')"><i class="fas fa-user"></i> View Dashboard</button>
+            </div>
+          </div>
+
+          <aside class="route-board" aria-label="Popular routes">
+            <h2>Popular Routes</h2>
+            <div class="route-item">
+              <div>
+                <strong>Lagos to Abuja</strong>
+                <div class="route-meta">Luxury Coach - 8 hours</div>
+              </div>
+              <button class="btn btn-primary" onclick="navigateTo('book-ride.html')">Book</button>
+            </div>
+            <div class="route-item">
+              <div>
+                <strong>Port Harcourt to Lagos</strong>
+                <div class="route-meta">Executive VIP - 6 hours</div>
+              </div>
+              <button class="btn btn-primary" onclick="navigateTo('book-ride.html')">Book</button>
+            </div>
+            <div class="route-item">
+              <div>
+                <strong>Kano to Lagos</strong>
+                <div class="route-meta">Luxury Coach - 14 hours</div>
+              </div>
+              <button class="btn btn-primary" onclick="navigateTo('book-ride.html')">Book</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section alt">
+        <div class="container">
+          <div class="section-head center">
+            <h2>Why Choose Lux Transit?</h2>
+            <p>Built for passengers who need predictable long-distance transport.</p>
+          </div>
+          <div class="grid grid-4">
+            <article class="card">
+              <p class="eyebrow"><i class="fas fa-map-location-dot"></i> Coverage</p>
+              <h3>Nationwide reach</h3>
+              <p class="muted">Routes across major cities in Nigeria, with clear departure and arrival details.</p>
+            </article>
+            <article class="card">
+              <p class="eyebrow"><i class="fas fa-clock"></i> Schedule</p>
+              <h3>Multiple daily trips</h3>
+              <p class="muted">Morning, midday, and afternoon departures on high-demand routes.</p>
+            </article>
+            <article class="card">
+              <p class="eyebrow"><i class="fas fa-shield-halved"></i> Safety</p>
+              <h3>Verified operations</h3>
+              <p class="muted">Passenger details, bus numbers, and driver information are easy to review.</p>
+            </article>
+            <article class="card">
+              <p class="eyebrow"><i class="fas fa-chair"></i> Comfort</p>
+              <h3>Premium coaches</h3>
+              <p class="muted">Air-conditioned buses with assigned seating for a calmer journey.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-head center">
+            <h2>Passenger Feedback</h2>
+          </div>
+          <div class="grid grid-3">
+            <article class="card">
+              <p class="eyebrow"><i class="fas fa-star"></i> 5.0 rating</p>
+              <p class="muted">"Excellent service. The bus was comfortable and arrived on time."</p>
+              <strong>Amina Ibrahim</strong>
+              <div class="small">Lagos to Abuja</div>
+            </article>
+            <article class="card">
+              <p class="eyebrow"><i class="fas fa-star"></i> 5.0 rating</p>
+              <p class="muted">"Professional drivers and clean buses. Booking was straightforward."</p>
+              <strong>Chukwu Okafor</strong>
+              <div class="small">Port Harcourt to Enugu</div>
+            </article>
+            <article class="card">
+              <p class="eyebrow"><i class="fas fa-star"></i> 5.0 rating</p>
+              <p class="muted">"Reliable schedules and clear ride updates from start to finish."</p>
+              <strong>Fatima Bello</strong>
+              <div class="small">Kano to Kaduna</div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="brand" style="justify-content:center;">
+          <span class="brand-mark"><i class="fas fa-bus"></i></span>
+          <span>Lux Transit</span>
+        </div>
+        <p>Premium bus transportation across Nigerian cities.</p>
+        <p class="small">Copyright 2026 Lux Transit. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      function navigateTo(path) {
+        window.location.href = path;
+      }
+
+      function bookRideNow() {
+        navigateTo('book-ride.html');
+      }
+    </script>
+  </body>
+</html>
