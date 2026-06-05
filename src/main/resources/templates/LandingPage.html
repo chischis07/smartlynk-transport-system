@@ -1,6 +1,5 @@
 <!doctype html>
-<html lang="en">
-  <head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Smartlynk Transit - Travel Across Nigeria</title>
@@ -49,14 +48,14 @@
                 <strong>Port Harcourt to Lagos</strong>
                 <div class="route-meta">Executive VIP - 6 hours</div>
               </div>
-              <button class="btn btn-primary" onclick="@{/book-ride}">Book</button>
+              <a class="btn btn-primary" onclick="@{/buses}">Book</a>
             </div>
             <div class="route-item">
               <div>
                 <strong>Kano to Lagos</strong>
                 <div class="route-meta">Luxury Coach - 14 hours</div>
               </div>
-              <button class="btn btn-primary" onclick="@{/book-ride}">Book</button>
+              <a class="btn btn-primary" onclick="@{/buses}">Book</a>
             </div>
           </aside>
         </div>

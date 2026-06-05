@@ -34,7 +34,6 @@ public class Bus {
 
 
 
-    // Entity relationships
     @ManyToOne
     @JoinColumn(name = "Routeid")
     private Route route;
@@ -44,7 +43,6 @@ public class Bus {
 
 
 
-    // Constructors
     public Bus(String busName, Long busId, Integer busNumber, Integer capacity, String name, Route route, List<Booking> bookings) {
         this.busId = busId;
         this.busNumber = busNumber;

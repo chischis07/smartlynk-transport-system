@@ -24,18 +24,18 @@
         <div class="card">
             <p th:if="${errorMessage}" th:text="${errorMessage}"
                style="color:red; margin-bottom:16px;"></p>
-
-            <form th:action="@{/login}" method="post">                
+            <form th:action="@{/login}" method="post">
                 <div class="field-group">
-                    <label class="small">Username</label>
-                    <input name="username" type="text" class="field"
-                           autocomplete="username" required />
+                    <label class="small">Email</label>
+                    <input name="email" type="email" class="field"
+                           autocomplete="email" required />
                 </div>
                 <div class="field-group">
                     <label class="small">Password</label>
                     <input name="password" type="password" class="field"
                            autocomplete="current-password" required />
                 </div>
+                <p th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></p>
                 <button type="submit" class="btn btn-primary btn-block">
                     <i class="fas fa-right-to-bracket"></i> Login
                 </button>

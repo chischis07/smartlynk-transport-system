@@ -31,7 +31,6 @@ public class Route{
     private double price;
 
 
-    // Entity Relationship
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL)
     private List<Bus> buses;
 

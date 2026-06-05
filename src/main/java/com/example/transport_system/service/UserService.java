@@ -21,7 +21,6 @@ public class UserService {
     private UserRepository userRepository;
 
     public User registerUser(User user) {
-        user.setRole(Role.USER);
         // Prevent registering with an email already in the database
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new RuntimeException("A user with this email already exists");

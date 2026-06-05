@@ -22,7 +22,6 @@ public class AdminService {
         return adminRepository.save(admin);
     }
 
-
     public boolean loginAdmin(String username, String password) {
         Optional<Admin> admin = adminRepository.findByUsername(username);
         return admin.isPresent() && admin.get().getPassword().equals(password);

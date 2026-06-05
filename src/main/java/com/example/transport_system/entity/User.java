@@ -36,7 +36,6 @@ public class User {
 
 
 
-        // Entity relationships
         @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
         private List<Booking> bookings;
 

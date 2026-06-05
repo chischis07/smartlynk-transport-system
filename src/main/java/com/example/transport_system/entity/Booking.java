@@ -31,7 +31,6 @@ public class Booking {
     private Double amountPaid;
 
 
-    // Entity relationships
     @ManyToOne
     @JoinColumn(name = "Userid", nullable = false)
     private User user;
@@ -42,8 +41,6 @@ public class Booking {
     @JoinColumn(name = "Busid", nullable = false)
     private Bus bus;
 
-
-    // Constructors
     public Booking(Long id, Integer seatNumber, LocalDateTime bookingDate, String status, User user, Bus bus, double amountPaid) {
         this.Bookingid = id;
         SeatNumber = seatNumber;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -79,7 +79,7 @@
       <tbody>
       <!-- th:each loops through the recentBookings list from the controller -->
       <tr th:each="booking : ${recentBookings}">
-        <td th:text="${booking.id}"></td>
+        <td th:text="${booking.Bookingid}"></td>
         <td th:text="${booking.user.firstname + ' ' + booking.user.lastname}"></td>
         <td th:text="${booking.bus.route != null ? booking.bus.route.origin + ' → ' + booking.bus.route.destination : 'N/A'}"></td>
         <td th:text="${booking.seatNumber}"></td>

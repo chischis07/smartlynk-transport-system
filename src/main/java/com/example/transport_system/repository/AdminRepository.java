@@ -12,19 +12,13 @@ import java.util.Optional;
 @Repository
 
 public interface AdminRepository extends JpaRepository<Admin, Long> {
-    // Searches for an admin based on their username
+
     @Query("SELECT a FROM Admin a WHERE LOWER(a.username) LIKE LOWER(CONCAT('%', :username, '%'))")
     public List<Admin>searchByUsername(@Param("username")String username);
 
-    //
     @Query("SELECT a FROM Admin a WHERE a.username = :username")
     Optional<Admin> findByUsername(@Param("username")String username);
 
-    // Checks if an admin already exists
     boolean existsByUsername(String username);
-
-
-
-
 
 }

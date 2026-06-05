@@ -18,6 +18,8 @@ public class Admin {
     @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
 
+
+
     public Admin(Long id, String username, String password) {
         this.Adminid = id;
         this.username = username;

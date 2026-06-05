@@ -21,7 +21,6 @@ public class Payment {
     private String PaymentStatus;
 
 
-    // Entity relationship
     @OneToOne
     @JoinColumn(name = "Bookingid", nullable = false)
     private Booking booking;

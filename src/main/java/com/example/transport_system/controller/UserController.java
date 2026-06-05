@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @Controller
 public class UserController {
 
@@ -33,17 +35,14 @@ public class UserController {
     public String registerUser(@Valid @ModelAttribute("user") User user,
                                BindingResult result,
                                Model model) {
-
         user.setRole(Role.USER);
-        userService.registerUser(user);
-        // If there are validation errors, stay on the form and show them
+
         if (result.hasErrors()) {
             return "register";
         }
 
         try {
             userService.registerUser(user);
-            // Redirect to log in after successful registration
             return "redirect:/login?registered=true";
         } catch (RuntimeException e) {
             model.addAttribute("errorMessage", e.getMessage());
@@ -57,24 +56,18 @@ public class UserController {
         return "login";
     }
 
+
     @PostMapping("/login")
     public String loginUser(@RequestParam String email,
                             @RequestParam String password,
                             Model model) {
-        boolean success = userService.loginUser(email, password);
+        Optional<User> userOpt = userService.loginUser(email, password);
 
-         User user = userService.loginUser(email, password);
-
-    if (user != null) {
-
-        if (user.getRole() == Role.ADMIN) {
-            return "redirect:/admin/dashboard";
-        }
-
-        return "redirect:/user/dashboard";
-    }
-
-        if (success) {
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            if (user.getRole() == Role.ADMIN) {
+                return "redirect:/admin/dashboard";
+            }
             return "redirect:/user/dashboard";
         } else {
             model.addAttribute("errorMessage", "Invalid email or password");
