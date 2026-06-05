@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Dashboard - Lux Transit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../static/css/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav-inner">
+        <a class="brand" href="LandingPage.html">
+          <span class="brand-mark"><i class="fas fa-bus"></i></span>
+          <span>Lux Transit</span>
+          <span class="chip danger">Admin</span>
+        </a>
+        <div class="nav-actions">
+          <span class="small">Admin User</span>
+          <button class="btn btn-outline" onclick="logout()">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container layout-main">
+      <div class="page-title">
+        <h1>Admin Dashboard</h1>
+        <p>Monitor passenger activity, routes, bookings, and fleet usage.</p>
+      </div>
+
+      <section class="grid grid-4" style="margin:24px 0;">
+        <article class="card stat">
+          <span class="stat-value">15,234</span>
+          <span class="muted">Total Passengers</span>
+        </article>
+        <article class="card stat">
+          <span class="stat-value">156</span>
+          <span class="muted">Active Buses</span>
+        </article>
+        <article class="card stat">
+          <span class="stat-value">87</span>
+          <span class="muted">Routes Covered</span>
+        </article>
+        <article class="card stat">
+          <span class="stat-value">12,450</span>
+          <span class="muted">Bookings This Month</span>
+        </article>
+      </section>
+
+      <div class="tabs">
+        <button id="tabCreateRide" class="btn tab" onclick="showTab('createRide')">Create Ride</button>
+        <button id="tabRides" class="btn tab" onclick="showTab('rides')">Scheduled Rides</button>
+        <button id="tabBookings" class="btn tab is-active" onclick="showTab('bookings')">Recent Bookings</button>
+        <button id="tabRoutes" class="btn tab" onclick="showTab('routes')">Top Routes</button>
+      </div>
+
+      <section id="tabContent"></section>
+    </main>
+
+    <script>
+      function logout() {
+        window.location.href = 'login.html';
+      }
+
+      const recentBookings = [
+        { id: 'TR001240', passenger: 'Chioma Eze', from: 'Lagos', to: 'Abuja', date: '2026-05-18', time: '08:00 AM', status: 'confirmed' },
+        { id: 'TR001239', passenger: 'Ibrahim Musa', from: 'Kano', to: 'Lagos', date: '2026-05-18', time: '07:00 AM', status: 'confirmed' },
+        { id: 'TR001238', passenger: 'Grace Okafor', from: 'Port Harcourt', to: 'Enugu', date: '2026-05-18', time: '10:00 AM', status: 'pending' }
+      ];
+
+      const topRoutes = [
+        { route: 'Lagos to Abuja', trips: 450 },
+        { route: 'Kano to Lagos', trips: 320 },
+        { route: 'Port Harcourt to Lagos', trips: 280 }
+      ];
+
+      const scheduledRides = [
+        { id: 'RIDE001', from: 'Lagos', to: 'Abuja', date: '2026-05-20', departure: '07:00', arrival: '15:00', busType: 'Luxury Coach', busNumber: 'LXT-102', seats: 12, price: 8500, status: 'scheduled' },
+        { id: 'RIDE002', from: 'Port Harcourt', to: 'Lagos', date: '2026-05-21', departure: '09:00', arrival: '15:00', busType: 'Executive VIP', busNumber: 'LXT-220', seats: 8, price: 9500, status: 'scheduled' }
+      ];
+
+      function setActiveTab(tab) {
+        document.getElementById('tabCreateRide').classList.toggle('is-active', tab === 'createRide');
+        document.getElementById('tabRides').classList.toggle('is-active', tab === 'rides');
+        document.getElementById('tabBookings').classList.toggle('is-active', tab === 'bookings');
+        document.getElementById('tabRoutes').classList.toggle('is-active', tab === 'routes');
+      }
+
+      function showTab(tab) {
+        setActiveTab(tab);
+        const el = document.getElementById('tabContent');
+        if (tab === 'createRide') {
+          el.innerHTML = `
+            <div class="card">
+              <div class="section-head">
+                <h2>Create Ride</h2>
+                <p>Add a scheduled trip passengers can book.</p>
+              </div>
+              <form id="rideForm" class="form-grid" onsubmit="createRide(event)">
+                <div class="form-row">
+                  <div class="field-group">
+                    <label for="from" class="small">Departure City</label>
+                    <select id="from" class="field" required>
+                      <option value="">Select city</option>
+                      <option>Lagos</option>
+                      <option>Abuja</option>
+                      <option>Kano</option>
+                      <option>Port Harcourt</option>
+                      <option>Enugu</option>
+                      <option>Ibadan</option>
+                    </select>
+                  </div>
+                  <div class="field-group">
+                    <label for="to" class="small">Destination City</label>
+                    <select id="to" class="field" required>
+                      <option value="">Select city</option>
+                      <option>Abuja</option>
+                      <option>Lagos</option>
+                      <option>Kano</option>
+                      <option>Port Harcourt</option>
+                      <option>Enugu</option>
+                      <option>Ibadan</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="field-group">
+                    <label for="date" class="small">Travel Date</label>
+                    <input id="date" type="date" class="field" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="departure" class="small">Departure Time</label>
+                    <input id="departure" type="time" class="field" required />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="field-group">
+                    <label for="arrival" class="small">Arrival Time</label>
+                    <input id="arrival" type="time" class="field" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="busType" class="small">Bus Type</label>
+                    <select id="busType" class="field" required>
+                      <option>Luxury Coach</option>
+                      <option>Executive VIP</option>
+                      <option>Standard Coach</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="field-group">
+                    <label for="busNumber" class="small">Bus Number</label>
+                    <input id="busNumber" class="field" placeholder="LXT-456" required />
+                  </div>
+                  <div class="field-group">
+                    <label for="seats" class="small">Available Seats</label>
+                    <input id="seats" type="number" class="field" min="1" max="60" required />
+                  </div>
+                </div>
+                <div class="field-group">
+                  <label for="price" class="small">Fare (NGN)</label>
+                  <input id="price" type="number" class="field" min="500" step="100" required />
+                </div>
+                <button class="btn btn-primary" type="submit"><i class="fas fa-plus"></i> Create Ride</button>
+              </form>
+            </div>
+          `;
+        } else if (tab === 'rides') {
+          renderRides();
+        } else if (tab === 'bookings') {
+          el.innerHTML = `
+            <div class="card table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Booking ID</th>
+                    <th>Passenger</th>
+                    <th>Route</th>
+                    <th>Date & Time</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${recentBookings.map((booking) => `
+                    <tr>
+                      <td>${booking.id}</td>
+                      <td>${booking.passenger}</td>
+                      <td>${booking.from} to ${booking.to}</td>
+                      <td>${booking.date} ${booking.time}</td>
+                      <td><span class="chip ${booking.status === 'pending' ? 'warning' : ''}">${booking.status}</span></td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          `;
+        } else {
+          el.innerHTML = `
+            <div class="grid grid-3">
+              ${topRoutes.map((route, index) => `
+                <article class="card">
+                  <p class="eyebrow">Rank ${index + 1}</p>
+                  <h3>${route.route}</h3>
+                  <p class="muted">${route.trips} trips this month</p>
+                </article>
+              `).join('')}
+            </div>
+          `;
+        }
+      }
+
+      function renderRides() {
+        document.getElementById('tabContent').innerHTML = `
+          <div class="card table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Ride ID</th>
+                  <th>Route</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Bus</th>
+                  <th>Seats</th>
+                  <th>Fare</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${scheduledRides.map((ride) => `
+                  <tr>
+                    <td>${ride.id}</td>
+                    <td>${ride.from} to ${ride.to}</td>
+                    <td>${ride.date}</td>
+                    <td>${ride.departure} - ${ride.arrival}</td>
+                    <td>${ride.busType}<br><span class="small">${ride.busNumber}</span></td>
+                    <td>${ride.seats}</td>
+                    <td>NGN ${Number(ride.price).toLocaleString()}</td>
+                    <td><span class="chip">${ride.status}</span></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      function createRide(event) {
+        event.preventDefault();
+        const from = document.getElementById('from').value;
+        const to = document.getElementById('to').value;
+        if (from === to) {
+          alert('Departure and destination cannot be the same.');
+          return;
+        }
+
+        const ride = {
+          id: `RIDE${String(Date.now()).slice(-6)}`,
+          from,
+          to,
+          date: document.getElementById('date').value,
+          departure: document.getElementById('departure').value,
+          arrival: document.getElementById('arrival').value,
+          busType: document.getElementById('busType').value,
+          busNumber: document.getElementById('busNumber').value.trim(),
+          seats: Number(document.getElementById('seats').value),
+          price: Number(document.getElementById('price').value),
+          status: 'scheduled'
+        };
+
+        scheduledRides.unshift(ride);
+        showTab('rides');
+      }
+
+      showTab('bookings');
+    </script>
+  </body>
+</html>

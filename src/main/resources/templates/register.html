@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Register - Lux Transit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../static/css/styles.css" />
+  </head>
+  <body>
+    <main class="auth-page">
+      <section class="auth-shell wide">
+        <div class="auth-head">
+          <a class="brand" href="LandingPage.html">
+            <span class="brand-mark"><i class="fas fa-bus"></i></span>
+            <span>Lux Transit</span>
+          </a>
+          <h1>Create Your Account</h1>
+          <p class="muted">Register once, then book rides and manage reservations from your dashboard.</p>
+        </div>
+
+        <div class="card">
+          <button class="btn btn-ghost" onclick="navigateTo('LandingPage.html')"><i class="fas fa-arrow-left"></i> Back to Home</button>
+
+          <form id="registerForm" class="form-grid" onsubmit="handleRegister(event)">
+            <div class="form-row">
+              <div class="field-group">
+                <label for="firstName" class="small">First Name</label>
+                <input id="firstName" class="field" autocomplete="given-name" required />
+              </div>
+              <div class="field-group">
+                <label for="lastName" class="small">Last Name</label>
+                <input id="lastName" class="field" autocomplete="family-name" required />
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="email" class="small">Email Address</label>
+              <input id="email" type="email" class="field" autocomplete="email" required />
+            </div>
+
+            <div class="form-row">
+              <div class="field-group">
+                <label for="phone" class="small">Phone Number</label>
+                <input id="phone" class="field" autocomplete="tel" placeholder="08012345678" required />
+              </div>
+              <div class="field-group">
+                <label for="state" class="small">State of Residence</label>
+                <select id="state" class="field" required>
+                  <option value="">Select your state</option>
+                  <option>Abia</option>
+                  <option>Abuja</option>
+                  <option>Lagos</option>
+                  <option>Rivers</option>
+                  <option>Kano</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="field-group">
+                <label for="password" class="small">Password</label>
+                <input id="password" type="password" class="field" autocomplete="new-password" required minlength="8" />
+              </div>
+              <div class="field-group">
+                <label for="confirmPassword" class="small">Confirm Password</label>
+                <input id="confirmPassword" type="password" class="field" autocomplete="new-password" required />
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+          </form>
+
+          <p class="small" style="text-align:center;">Already have an account? <button class="btn btn-ghost" onclick="navigateTo('login.html')">Login here</button></p>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      function navigateTo(path) {
+        window.location.href = path;
+      }
+
+      function handleRegister(event) {
+        event.preventDefault();
+        const password = document.getElementById('password').value;
+        const confirm = document.getElementById('confirmPassword').value;
+        if (password !== confirm) {
+          alert('Passwords do not match');
+          return;
+        }
+        window.location.href = 'login.html?message=' + encodeURIComponent('Registration successful. Please login.');
+      }
+    </script>
+  </body>
+</html>
