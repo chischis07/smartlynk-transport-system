@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Booking Confirmed - Smartlynk Transit</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container nav-inner">
+    <a class="brand" th:href="@{/}">
+      <span class="brand-mark"><i class="fas fa-bus"></i></span>
+      <span>Smartlynk Transit</span>
+    </a>
+  </div>
+</header>
+
+<main class="container layout-main" style="max-width:600px;">
+
+  <div style="text-align:center; padding: 48px 0 24px;">
+    <i class="fas fa-circle-check" style="font-size:64px; color:#22c55e;"></i>
+    <h1 style="margin-top:16px;">Booking Confirmed!</h1>
+    <p class="muted">Your seat has been reserved successfully.</p>
+  </div>
+
+  <section class="card">
+    <h2 style="margin-bottom:16px;">Booking Details</h2>
+    <div class="summary-list">
+      <div class="summary-row">
+        <span class="muted">Booking ID</span>
+        <strong th:text="${booking.Bookingid}"></strong>
+      </div>
+      <div class="summary-row">
+        <span class="muted">Passenger</span>
+        <strong th:text="${booking.user.firstname + ' ' + booking.user.lastname}"></strong>
+      </div>
+      <div class="summary-row">
+        <span class="muted">Bus</span>
+        <strong th:text="${booking.bus.busName}"></strong>
+      </div>
+      <div class="summary-row">
+        <span class="muted">Route</span>
+        <strong th:text="${booking.bus.route != null ? booking.bus.route.origin + ' → ' + booking.bus.route.destination : 'N/A'}"></strong>
+      </div>
+      <div class="summary-row">
+        <span class="muted">Seat Number</span>
+        <strong th:text="${booking.SeatNumber}"></strong>
+      </div>
+      <div class="summary-row">
+        <span class="muted">Amount Paid</span>
+        <strong>₦<span th:text="${booking.amountPaid}"></span></strong>
+      </div>
+      <div class="summary-row">
+        <span class="muted">Status</span>
+        <span class="chip" th:text="${booking.status}"></span>
+      </div>
+    </div>
+  </section>
+
+  <div style="display:flex; gap:12px; margin-top:24px;">
+    <a th:href="@{/user/dashboard}" class="btn btn-primary">Go to Dashboard</a>
+    <a th:href="@{/buses}" class="btn btn-outline">Book Another</a>
+  </div>
+
+</main>
+</body>
+</html>

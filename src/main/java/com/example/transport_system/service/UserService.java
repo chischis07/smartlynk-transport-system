@@ -1,5 +1,6 @@
 package com.example.transport_system.service;
 
+import com.example.transport_system.entity.Role;
 import com.example.transport_system.entity.User;
 import com.example.transport_system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public User registerUser(User user) {
+        user.setRole(Role.USER);
         // Prevent registering with an email already in the database
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new RuntimeException("A user with this email already exists");
@@ -27,6 +29,8 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
+
 
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
@@ -68,8 +72,18 @@ public class UserService {
         return userRepository.searchByFirstName(firstName);
     }
 
-    public boolean loginUser(String email, String password) {
-        Optional<User> user = userRepository.findByEmail(email);
-        return user.isPresent() && user.get().getPassword().equals(password);
+    public Optional<User> loginUser(String email, String password) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+
+
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+
+            if (user.getPassword().equals(password)) {
+                return Optional.of(user);
+            }
+        }
+
+        return Optional.empty();
     }
 }

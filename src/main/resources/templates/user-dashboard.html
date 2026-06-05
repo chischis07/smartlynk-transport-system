@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard - Smartlynk Transit</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container nav-inner">
+    <a class="brand" th:href="@{/}">
+      <span class="brand-mark"><i class="fas fa-bus"></i></span>
+      <span>Smartlynk Transit</span>
+    </a>
+    <div class="nav-actions">
+      <a class="btn btn-outline" th:href="@{/login}">Logout</a>
+    </div>
+  </div>
+</header>
+
+<main class="container layout-main">
+
+  <div class="page-title">
+    <h1>Welcome</h1>
+    <p>Manage your bookings and book new rides.</p>
+  </div>
+
+  <!-- Quick action cards -->
+  <section class="grid grid-2" style="margin: 24px 0;">
+    <article class="card">
+      <p class="eyebrow"><i class="fas fa-ticket"></i> New booking</p>
+      <h3>Book a Ride</h3>
+      <p class="muted">Find available buses and reserve your seat.</p>
+      <a th:href="@{/buses}" class="btn btn-primary" style="margin-top:12px;">Browse Buses</a>
+    </article>
+    <article class="card">
+      <p class="eyebrow"><i class="fas fa-clock-rotate-left"></i> Booking records</p>
+      <h3>Your Booking History</h3>
+      <p class="muted">Review your past and active bookings.</p>
+      <!-- NOTE: replace 1 with real session user ID later -->
+      <a th:href="@{/user/bookings(userId=1)}" class="btn btn-outline" style="margin-top:12px;">View History</a>
+    </article>
+  </section>
+
+</main>
+
+</body>
+</html>

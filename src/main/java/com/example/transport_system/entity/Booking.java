@@ -48,7 +48,7 @@ public class Booking {
         this.Bookingid = id;
         SeatNumber = seatNumber;
         this.bookingDate = bookingDate;
-        status = status;
+        this.status = status;
         this.user = user;
         this.bus = bus;
         this.amountPaid = amountPaid;
@@ -56,7 +56,7 @@ public class Booking {
     }
     public Booking(){}
 
-    public double getBookingId() {
+    public Long getBookingId() {
         return Bookingid;
     }
 
@@ -65,7 +65,7 @@ public class Booking {
 
     }
 
-    public int getSeatNumber() {
+    public Integer getSeatNumber() {
 
         return SeatNumber;
     }
@@ -75,7 +75,7 @@ public class Booking {
 
     }
 
-    public LocalDateTime getBookingDatebooking() {
+    public LocalDateTime getBookingDate() {
 
         return bookingDate;
     }
@@ -85,7 +85,7 @@ public class Booking {
 
     }
 
-    public String Status() {
+    public String getStatus() {
         return status;
     }
 
@@ -94,7 +94,7 @@ public class Booking {
 
     }
 
-    public User user() {
+    public User getUser() {
 
         return user;
     }
@@ -104,10 +104,6 @@ public class Booking {
 
     }
 
-    public Bus bus() {
-
-        return bus;
-    }
     public Bus getBus() {
         return bus;
     }

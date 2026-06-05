@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Manage Buses - Smartlynk Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+    <div class="container nav-inner">
+        <a class="brand" th:href="@{/admin/dashboard}">
+            <span class="brand-mark"><i class="fas fa-bus"></i></span>
+            <span>Smartlynk Admin</span>
+            <span class="chip danger">Admin</span>
+        </a>
+        <div class="nav-actions">
+            <a class="btn btn-outline" th:href="@{/login}">Logout</a>
+        </div>
+    </div>
+</header>
+
+<main class="container layout-main">
+
+    <div class="page-title" style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+            <h1>Manage Buses</h1>
+            <p>Add, edit, or remove buses from the fleet.</p>
+        </div>
+        <a th:href="@{/admin/buses/add}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add Bus
+        </a>
+    </div>
+
+    <div class="tabs" style="margin-bottom:24px;">
+        <a th:href="@{/admin/dashboard}" class="btn tab">Dashboard</a>
+        <a th:href="@{/admin/buses}" class="btn tab is-active">Buses</a>
+        <a th:href="@{/admin/routes}" class="btn tab">Routes</a>
+        <a th:href="@{/admin/bookings}" class="btn tab">Bookings</a>
+        <a th:href="@{/admin/users}" class="btn tab">Users</a>
+    </div>
+
+    <section class="card table-wrap">
+        <p th:if="${busPage.totalElements == 0}" class="muted">No buses in the fleet yet.</p>
+        <table th:if="${busPage.totalElements > 0}">
+            <thead>
+            <tr>
+                <th>ID</th><th>Bus Name</th><th>Bus No.</th>
+                <th>Capacity</th><th>Route</th><th>Available</th><th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="bus : ${busPage.content}">
+                <td th:text="${bus.busId}"></td>
+                <td th:text="${bus.busName}"></td>
+                <td th:text="${bus.busNumber}"></td>
+                <td th:text="${bus.capacity}"></td>
+                <td th:text="${bus.route != null ? bus.route.origin + ' → ' + bus.route.destination : 'No route'}"></td>
+                <td th:text="${bus.available ? 'Yes' : 'No'}"></td>
+                <td>
+                    <a th:href="@{/admin/buses/edit/{id}(id=${bus.busId})}"
+                       class="btn btn-outline">Edit</a>
+                    <a th:href="@{/admin/buses/delete/{id}(id=${bus.busId})}"
+                       class="btn btn-outline"
+                       onclick="return confirm('Delete this bus?')"
+                       style="margin-left:8px;">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Pagination -->
+    <div th:if="${totalPages > 1}" style="display:flex; gap:8px; margin-top:24px;">
+        <a th:if="${currentPage > 0}"
+           th:href="@{/admin/buses(page=${currentPage - 1})}"
+           class="btn btn-outline">Previous</a>
+        <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+            <a th:href="@{/admin/buses(page=${i})}"
+               th:text="${i + 1}"
+               th:classappend="${i == currentPage ? ' btn-primary' : ' btn-outline'}"
+               class="btn"></a>
+        </span>
+        <a th:if="${currentPage < totalPages - 1}"
+           th:href="@{/admin/buses(page=${currentPage + 1})}"
+           class="btn btn-outline">Next</a>
+    </div>
+
+</main>
+</body>
+</html>

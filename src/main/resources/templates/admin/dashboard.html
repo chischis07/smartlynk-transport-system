@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard - Smartlynk Transit</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container nav-inner">
+    <a class="brand" th:href="@{/}">
+      <span class="brand-mark"><i class="fas fa-bus"></i></span>
+      <span>Smartlynk Transit</span>
+      <span class="chip danger">Admin</span>
+    </a>
+    <div class="nav-actions">
+      <a class="btn btn-outline" th:href="@{/login}">Logout</a>
+    </div>
+  </div>
+</header>
+
+<main class="container layout-main">
+
+  <div class="page-title">
+    <h1>Admin Dashboard</h1>
+    <p>Monitor passengers, routes, bookings, and fleet.</p>
+  </div>
+
+  <!-- Stats row — pulled from AdminController model -->
+  <section class="grid grid-4" style="margin: 24px 0;">
+    <article class="card stat">
+      <span class="stat-value" th:text="${totalUsers}">0</span>
+      <span class="muted">Total Users</span>
+    </article>
+    <article class="card stat">
+      <span class="stat-value" th:text="${totalBuses}">0</span>
+      <span class="muted">Active Buses</span>
+    </article>
+    <article class="card stat">
+      <span class="stat-value" th:text="${totalRoutes}">0</span>
+      <span class="muted">Routes</span>
+    </article>
+    <article class="card stat">
+      <span class="stat-value" th:text="${totalBookings}">0</span>
+      <span class="muted">Total Bookings</span>
+    </article>
+  </section>
+
+  <!-- Admin nav links -->
+  <div class="tabs" style="margin-bottom: 24px;">
+    <a th:href="@{/admin/buses}" class="btn tab">Manage Buses</a>
+    <a th:href="@{/admin/routes}" class="btn tab">Manage Routes</a>
+    <a th:href="@{/admin/bookings}" class="btn tab">All Bookings</a>
+    <a th:href="@{/admin/users}" class="btn tab">All Users</a>
+  </div>
+
+  <!-- Recent bookings table -->
+  <section class="card table-wrap">
+    <h2 style="margin-bottom: 16px;">Recent Bookings (Last 7 Days)</h2>
+
+    <!-- Show message if no recent bookings -->
+    <p th:if="${#lists.isEmpty(recentBookings)}" class="muted">No bookings in the last 7 days.</p>
+
+    <table th:if="${not #lists.isEmpty(recentBookings)}">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Passenger</th>
+        <th>Route</th>
+        <th>Seat</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- th:each loops through the recentBookings list from the controller -->
+      <tr th:each="booking : ${recentBookings}">
+        <td th:text="${booking.id}"></td>
+        <td th:text="${booking.user.firstname + ' ' + booking.user.lastname}"></td>
+        <td th:text="${booking.bus.route != null ? booking.bus.route.origin + ' → ' + booking.bus.route.destination : 'N/A'}"></td>
+        <td th:text="${booking.seatNumber}"></td>
+        <td th:text="${booking.amountPaid != null ? '₦' + booking.amountPaid : 'N/A'}"></td>
+        <td th:text="${booking.status}"></td>
+        <td th:text="${#temporals.format(booking.bookingDate, 'dd MMM yyyy HH:mm')}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+</body>
+</html>

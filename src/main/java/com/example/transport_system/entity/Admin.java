@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 @Entity
 public class Admin {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Adminid;
 
     @NotBlank(message = "Username is required")
@@ -25,7 +25,7 @@ public class Admin {
     }
     public Admin(){}
 
-    public double getAdminId() {
+    public Long getAdminId() {
         return Adminid;
     }
 

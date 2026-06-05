@@ -14,7 +14,7 @@ import java.util.List;
 @Table(name = "Bus")
 public class Bus {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long busId;
 
     @NotBlank(message = "Bus name is required")
@@ -68,7 +68,7 @@ public class Bus {
     }
 
     public void setBusId(Long id) {
-        this.busId = busId;
+        this.busId = id;
 
     }
 
@@ -98,9 +98,6 @@ public class Bus {
         this.available = available;
     }
 
-    public Route route() {
-        return route;
-    }
 
     public void setRoute(Route route) {
         this.route = route;

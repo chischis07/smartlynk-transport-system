@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Booking History - Smartlynk Transit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+    <div class="container nav-inner">
+        <a class="brand" th:href="@{/}">
+            <span class="brand-mark"><i class="fas fa-bus"></i></span>
+            <span>Smartlynk Transit</span>
+        </a>
+        <div class="nav-actions">
+            <a class="btn btn-outline" th:href="@{/user/dashboard}">Dashboard</a>
+        </div>
+    </div>
+</header>
+
+<main class="container layout-main">
+
+    <div class="page-title">
+        <h1>Your Booking History</h1>
+        <p>All your past and active bookings.</p>
+    </div>
+
+    <p th:if="${bookingPage.totalElements == 0}" class="muted card" style="padding:24px;">
+        You have no bookings yet. <a th:href="@{/buses}">Browse available buses</a>.
+    </p>
+
+    <div th:each="booking : ${bookingPage.content}" class="card trip-card" style="margin-bottom:16px;">
+        <div>
+            <span class="chip" th:text="${booking.status}"></span>
+            <div class="trip-route" style="margin: 12px 0;">
+                <div>
+                    <strong th:text="${booking.bus.route != null ? booking.bus.route.origin : 'N/A'}"></strong>
+                    <div class="small">Origin</div>
+                </div>
+                <div class="route-line"></div>
+                <div>
+                    <strong th:text="${booking.bus.route != null ? booking.bus.route.destination : 'N/A'}"></strong>
+                    <div class="small">Destination</div>
+                </div>
+            </div>
+            <p class="muted">
+                Bus: <span th:text="${booking.bus.busName}"></span> &nbsp;|&nbsp;
+                Seat: <span th:text="${booking.SeatNumber}"></span> &nbsp;|&nbsp;
+                Amount: ₦<span th:text="${booking.amountPaid}"></span>
+            </p>
+        </div>
+        <!-- Cancel button only shows for ACTIVE bookings -->
+        <a th:if="${booking.status == 'ACTIVE'}"
+           th:href="@{/booking/cancel/{id}(id=${booking.Bookingid}, userId=${userId})}"
+           class="btn btn-outline"
+           onclick="return confirm('Cancel this booking?')">Cancel</a>
+    </div>
+
+    <!-- Pagination -->
+    <div th:if="${totalPages > 1}" style="display:flex; gap:8px; margin-top:24px;">
+        <a th:if="${currentPage > 0}"
+           th:href="@{/user/bookings(userId=${userId}, page=${currentPage - 1})}"
+           class="btn btn-outline">Previous</a>
+        <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+            <a th:href="@{/user/bookings(userId=${userId}, page=${i})}"
+               th:text="${i + 1}"
+               th:classappend="${i == currentPage ? ' btn-primary' : ' btn-outline'}"
+               class="btn"></a>
+        </span>
+        <a th:if="${currentPage < totalPages - 1}"
+           th:href="@{/user/bookings(userId=${userId}, page=${currentPage + 1})}"
+           class="btn btn-outline">Next</a>
+    </div>
+
+</main>
+</body>
+</html>

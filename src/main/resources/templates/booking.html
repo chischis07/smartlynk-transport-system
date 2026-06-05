@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Book a Seat - Smartlynk Transit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+    <div class="container nav-inner">
+        <a class="brand" th:href="@{/}">
+            <span class="brand-mark"><i class="fas fa-bus"></i></span>
+            <span>Smartlynk Transit</span>
+        </a>
+        <div class="nav-actions">
+            <a class="btn btn-outline" th:href="@{/buses}">Back to Buses</a>
+        </div>
+    </div>
+</header>
+
+<main class="container layout-main">
+
+    <div class="page-title">
+        <h1>Book Your Seat</h1>
+        <p>Review the bus details and confirm your seat number.</p>
+    </div>
+
+    <!-- Bus summary card -->
+    <section class="card" style="margin: 24px 0;">
+        <h2 th:text="${bus.busName}"></h2>
+        <div class="trip-route" style="margin: 16px 0;">
+            <div>
+                <strong th:text="${bus.route != null ? bus.route.origin : 'N/A'}"></strong>
+                <div class="small">Origin</div>
+            </div>
+            <div class="route-line"></div>
+            <div>
+                <strong th:text="${bus.route != null ? bus.route.destination : 'N/A'}"></strong>
+                <div class="small">Destination</div>
+            </div>
+        </div>
+        <p class="muted">
+            Bus Number: <strong th:text="${bus.busNumber}"></strong> &nbsp;|&nbsp;
+            Total Capacity: <strong th:text="${bus.capacity}"></strong> seats &nbsp;|&nbsp;
+            Fare: <strong>₦<span th:text="${bus.route != null ? bus.route.price : 'N/A'}"></span></strong>
+        </p>
+    </section>
+
+    <!-- Error message if booking failed -->
+    <p th:if="${errorMessage}" th:text="${errorMessage}"
+       style="color:red; margin-bottom:16px;"></p>
+
+    <!-- Booking form -->
+    <!-- NOTE: userId=1 is hardcoded — replace with session user ID when sessions are implemented -->
+    <section class="card">
+        <h3>Enter Your Details</h3>
+        <form th:action="@{/book/{id}(id=${bus.busId})}" method="post" class="form-grid">
+            <input type="hidden" name="userId" value="1" />
+            <div class="field-group">
+                <label class="small">Seat Number</label>
+                <input name="seatNumber" type="number" class="field"
+                       min="1" th:max="${bus.capacity}"
+                       placeholder="Enter a seat number" required />
+                <span class="small muted">Choose between 1 and
+                    <span th:text="${bus.capacity}"></span>
+                </span>
+            </div>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-ticket"></i> Confirm Booking
+            </button>
+        </form>
+    </section>
+
+</main>
+</body>
+</html>

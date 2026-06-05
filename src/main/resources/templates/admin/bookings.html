@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Manage Bookings - Smartlynk Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+    <div class="container nav-inner">
+        <a class="brand" th:href="@{/admin/dashboard}">
+            <span class="brand-mark"><i class="fas fa-bus"></i></span>
+            <span>Smartlynk Admin</span>
+            <span class="chip danger">Admin</span>
+        </a>
+        <div class="nav-actions">
+            <a class="btn btn-outline" th:href="@{/login}">Logout</a>
+        </div>
+    </div>
+</header>
+
+<main class="container layout-main">
+
+    <div class="page-title">
+        <h1>All Bookings</h1>
+        <p>Total: <strong th:text="${totalBookings}">0</strong> bookings</p>
+    </div>
+
+    <div class="tabs" style="margin-bottom:24px;">
+        <a th:href="@{/admin/dashboard}" class="btn tab">Dashboard</a>
+        <a th:href="@{/admin/buses}" class="btn tab">Buses</a>
+        <a th:href="@{/admin/routes}" class="btn tab">Routes</a>
+        <a th:href="@{/admin/bookings}" class="btn tab is-active">Bookings</a>
+        <a th:href="@{/admin/users}" class="btn tab">Users</a>
+    </div>
+
+    <!-- Search form -->
+    <section class="card" style="margin-bottom:24px;">
+        <form th:action="@{/admin/bookings}" method="get" class="form-grid">
+            <div class="field-group">
+                <label class="small">Search by Passenger Name</label>
+                <input name="search" type="text" class="field"
+                       th:value="${searchTerm}" placeholder="Enter name..." />
+            </div>
+            <div style="display:flex; gap:8px;">
+                <button type="submit" class="btn btn-primary">Search</button>
+                <a th:href="@{/admin/bookings}" class="btn btn-outline">Clear</a>
+            </div>
+        </form>
+    </section>
+
+    <!-- Search results -->
+    <section th:if="${bookings != null}" class="card table-wrap">
+        <h3 style="margin-bottom:16px;">
+            Results for "<span th:text="${searchTerm}"></span>"
+        </h3>
+        <p th:if="${#lists.isEmpty(bookings)}" class="muted">No bookings found.</p>
+        <table th:if="${not #lists.isEmpty(bookings)}">
+            <thead>
+            <tr>
+                <th>ID</th><th>Passenger</th><th>Route</th>
+                <th>Seat</th><th>Amount</th><th>Status</th><th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="booking : ${bookings}">
+                <td th:text="${booking.Bookingid}"></td>
+                <td th:text="${booking.user.firstname + ' ' + booking.user.lastname}"></td>
+                <td th:text="${booking.bus.route != null ? booking.bus.route.origin + ' → ' + booking.bus.route.destination : 'N/A'}"></td>
+                <td th:text="${booking.SeatNumber}"></td>
+                <td>₦<span th:text="${booking.amountPaid}"></span></td>
+                <td th:text="${booking.status}"></td>
+                <td>
+                    <a th:href="@{/admin/bookings/delete/{id}(id=${booking.Bookingid})}"
+                       class="btn btn-outline"
+                       onclick="return confirm('Delete this booking?')">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Paginated results -->
+    <section th:if="${bookingPage != null}" class="card table-wrap">
+        <p th:if="${bookingPage.totalElements == 0}" class="muted">No bookings found.</p>
+        <table th:if="${bookingPage.totalElements > 0}">
+            <thead>
+            <tr>
+                <th>ID</th><th>Passenger</th><th>Route</th>
+                <th>Seat</th><th>Amount</th><th>Status</th><th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="booking : ${bookingPage.content}">
+                <td th:text="${booking.Bookingid}"></td>
+                <td th:text="${booking.user.firstname + ' ' + booking.user.lastname}"></td>
+                <td th:text="${booking.bus.route != null ? booking.bus.route.origin + ' → ' + booking.bus.route.destination : 'N/A'}"></td>
+                <td th:text="${booking.SeatNumber}"></td>
+                <td>₦<span th:text="${booking.amountPaid}"></span></td>
+                <td th:text="${booking.status}"></td>
+                <td>
+                    <a th:href="@{/admin/bookings/delete/{id}(id=${booking.Bookingid})}"
+                       class="btn btn-outline"
+                       onclick="return confirm('Delete this booking?')">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div th:if="${totalPages > 1}" style="display:flex; gap:8px; margin-top:24px;">
+            <a th:if="${currentPage > 0}"
+               th:href="@{/admin/bookings(page=${currentPage - 1})}"
+               class="btn btn-outline">Previous</a>
+            <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                <a th:href="@{/admin/bookings(page=${i})}"
+                   th:text="${i + 1}"
+                   th:classappend="${i == currentPage ? ' btn-primary' : ' btn-outline'}"
+                   class="btn"></a>
+            </span>
+            <a th:if="${currentPage < totalPages - 1}"
+               th:href="@{/admin/bookings(page=${currentPage + 1})}"
+               class="btn btn-outline">Next</a>
+        </div>
+    </section>
+
+</main>
+</body>
+</html>

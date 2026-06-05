@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Manage Users - Smartlynk Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+    <div class="container nav-inner">
+        <a class="brand" th:href="@{/admin/dashboard}">
+            <span class="brand-mark"><i class="fas fa-bus"></i></span>
+            <span>Smartlynk Admin</span>
+            <span class="chip danger">Admin</span>
+        </a>
+        <div class="nav-actions">
+            <a class="btn btn-outline" th:href="@{/login}">Logout</a>
+        </div>
+    </div>
+</header>
+
+<main class="container layout-main">
+
+    <div class="page-title">
+        <h1>All Users</h1>
+        <p>View and manage registered passengers.</p>
+    </div>
+
+    <div class="tabs" style="margin-bottom:24px;">
+        <a th:href="@{/admin/dashboard}" class="btn tab">Dashboard</a>
+        <a th:href="@{/admin/buses}" class="btn tab">Buses</a>
+        <a th:href="@{/admin/routes}" class="btn tab">Routes</a>
+        <a th:href="@{/admin/bookings}" class="btn tab">Bookings</a>
+        <a th:href="@{/admin/users}" class="btn tab is-active">Users</a>
+    </div>
+
+    <section class="card table-wrap">
+        <p th:if="${userPage.totalElements == 0}" class="muted">No users registered yet.</p>
+        <table th:if="${userPage.totalElements > 0}">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${userPage.content}">
+                <td th:text="${user.userid}"></td>
+                <td th:text="${user.firstname}"></td>
+                <td th:text="${user.lastname}"></td>
+                <td th:text="${user.email}"></td>
+                <td>
+                    <a th:href="@{/admin/users/{id}(id=${user.userid})}"
+                       class="btn btn-outline">View</a>
+                    <a th:href="@{/admin/users/delete/{id}(id=${user.userid})}"
+                       class="btn btn-outline"
+                       onclick="return confirm('Delete this user?')"
+                       style="margin-left:8px;">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Pagination -->
+    <div th:if="${totalPages > 1}" style="display:flex; gap:8px; margin-top:24px;">
+        <a th:if="${currentPage > 0}"
+           th:href="@{/admin/users(page=${currentPage - 1})}"
+           class="btn btn-outline">Previous</a>
+        <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+            <a th:href="@{/admin/users(page=${i})}"
+               th:text="${i + 1}"
+               th:classappend="${i == currentPage ? ' btn-primary' : ' btn-outline'}"
+               class="btn"></a>
+        </span>
+        <a th:if="${currentPage < totalPages - 1}"
+           th:href="@{/admin/users(page=${currentPage + 1})}"
+           class="btn btn-outline">Next</a>
+    </div>
+
+</main>
+</body>
+</html>

@@ -16,7 +16,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query("SELECT b FROM Booking b WHERE b.status = 'ACTIVE'")
     List<Booking> findAllActiveBookings();
 
-    @Query("select s from Booking s where s.Bookingid = :id")
+    @Query("select s from Booking s where s.id = :id")
     public List<Booking>searchById(@Param("id")Long id);
 
     // Find all bookings for a specific user ID
@@ -31,7 +31,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     long getTotalBookings();
 
     @Query("select s from Booking s where s.status = :status")
-    public List<Booking>searchByStatus(@Param("status")String Status);
+    public List<Booking>searchByStatus(@Param("status")String status);
 
     // Get all bookings with pagination (for booking history page)
     Page<Booking> findAll(Pageable pageable);
@@ -41,8 +41,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     Page<Booking> findByUserIdPageable(@Param("userId") Long userId, Pageable pageable);
 
     // Search bookings by passenger (user) first name
-    @Query("SELECT b FROM Booking b WHERE LOWER(b.user.firstname) LIKE LOWER(CONCAT('%', :name, '%'))")
-    List<Booking> searchByPassengerName(@Param("name") String name);
+    @Query("SELECT b FROM Booking b WHERE LOWER(b.user.firstname) LIKE LOWER(CONCAT('%', :firstname, '%'))")
+    List<Booking> searchByPassengerName(@Param("firstname") String firstname);
 
     // Get most booked routes, ordered by booking count descending
     @Query("SELECT b.bus.route, COUNT(b) AS total FROM Booking b GROUP BY b.bus.route ORDER BY total DESC")

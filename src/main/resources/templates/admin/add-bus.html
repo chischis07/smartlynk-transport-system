@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Add Bus - Smartlynk Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+    <div class="container nav-inner">
+        <a class="brand" th:href="@{/admin/dashboard}">
+            <span class="brand-mark"><i class="fas fa-bus"></i></span>
+            <span>Smartlynk Admin</span>
+            <span class="chip danger">Admin</span>
+        </a>
+        <div class="nav-actions">
+            <a class="btn btn-outline" th:href="@{/admin/buses}">Back to Buses</a>
+        </div>
+    </div>
+</header>
+
+<main class="container layout-main" style="max-width:600px;">
+
+    <div class="page-title">
+        <h1>Add New Bus</h1>
+        <p>Fill in the details to add a bus to the fleet.</p>
+    </div>
+
+    <section class="card">
+        <form th:action="@{/admin/buses/add}" th:object="${bus}" method="post" class="form-grid">
+
+            <div class="field-group">
+                <label class="small">Bus Name</label>
+                <input th:field="*{busName}" class="field" placeholder="e.g. Luxury Coach A" required />
+                <span th:if="${#fields.hasErrors('busName')}" th:errors="*{busName}" style="color:red;"></span>
+            </div>
+
+            <div class="field-group">
+                <label class="small">Bus Number</label>
+                <input th:field="*{busNumber}" type="number" class="field" placeholder="e.g. 101" required />
+                <span th:if="${#fields.hasErrors('busNumber')}" th:errors="*{busNumber}" style="color:red;"></span>
+            </div>
+
+            <div class="field-group">
+                <label class="small">Capacity (seats)</label>
+                <input th:field="*{capacity}" type="number" class="field" min="1" required />
+                <span th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}" style="color:red;"></span>
+            </div>
+
+            <div class="field-group">
+                <label class="small">Assign Route</label>
+                <select th:field="*{route}" class="field">
+                    <option value="">-- No route assigned --</option>
+                    <option th:each="route : ${routes}"
+                            th:value="${route.routeId}"
+                            th:text="${route.origin + ' → ' + route.destination}"></option>
+                </select>
+            </div>
+
+            <div style="display:flex; gap:12px;">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add Bus
+                </button>
+                <a th:href="@{/admin/buses}" class="btn btn-outline">Cancel</a>
+            </div>
+
+        </form>
+    </section>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>User Detail - Smartlynk Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+    <div class="container nav-inner">
+        <a class="brand" th:href="@{/admin/dashboard}">
+            <span class="brand-mark"><i class="fas fa-bus"></i></span>
+            <span>Smartlynk Admin</span>
+            <span class="chip danger">Admin</span>
+        </a>
+        <div class="nav-actions">
+            <a class="btn btn-outline" th:href="@{/admin/users}">Back to Users</a>
+        </div>
+    </div>
+</header>
+
+<main class="container layout-main">
+
+    <div class="page-title">
+        <h1 th:text="${user.firstname + ' ' + user.lastname}"></h1>
+        <p>User profile and booking history.</p>
+    </div>
+
+    <!-- User info card -->
+    <section class="card" style="margin-bottom:24px;">
+        <h2 style="margin-bottom:16px;">Profile</h2>
+        <div class="summary-list">
+            <div class="summary-row">
+                <span class="muted">User ID</span>
+                <strong th:text="${user.userid}"></strong>
+            </div>
+            <div class="summary-row">
+                <span class="muted">Name</span>
+                <strong th:text="${user.firstname + ' ' + user.lastname}"></strong>
+            </div>
+            <div class="summary-row">
+                <span class="muted">Email</span>
+                <strong th:text="${user.email}"></strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- User bookings -->
+    <section class="card table-wrap">
+        <h2 style="margin-bottom:16px;">Bookings</h2>
+        <p th:if="${#lists.isEmpty(bookings)}" class="muted">This user has no bookings.</p>
+        <table th:if="${not #lists.isEmpty(bookings)}">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Bus</th>
+                <th>Route</th>
+                <th>Seat</th>
+                <th>Amount</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="booking : ${bookings}">
+                <td th:text="${booking.Bookingid}"></td>
+                <td th:text="${booking.bus.busName}"></td>
+                <td th:text="${booking.bus.route != null ? booking.bus.route.origin + ' → ' + booking.bus.route.destination : 'N/A'}"></td>
+                <td th:text="${booking.SeatNumber}"></td>
+                <td>₦<span th:text="${booking.amountPaid}"></span></td>
+                <td th:text="${booking.status}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+</main>
+</body>
+</html>

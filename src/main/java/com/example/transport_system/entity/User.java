@@ -14,6 +14,11 @@ public class User {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long Userid;
 
+
+
+    @Enumerated(EnumType.STRING)
+        private Role role;
+
         @NotBlank(message = "First name is required")
         private String firstname;
 
@@ -96,6 +101,14 @@ public class User {
     public void setBookings(List<Booking> bookings) {
         this.bookings = bookings;
 
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
 }

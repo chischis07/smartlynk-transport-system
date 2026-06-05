@@ -1,5 +1,6 @@
 package com.example.transport_system.controller;
 
+import com.example.transport_system.entity.Role;
 import com.example.transport_system.entity.User;
 import com.example.transport_system.service.UserService;
 import jakarta.validation.Valid;
@@ -32,6 +33,9 @@ public class UserController {
     public String registerUser(@Valid @ModelAttribute("user") User user,
                                BindingResult result,
                                Model model) {
+
+        user.setRole(Role.USER);
+        userService.registerUser(user);
         // If there are validation errors, stay on the form and show them
         if (result.hasErrors()) {
             return "register";
@@ -59,8 +63,18 @@ public class UserController {
                             Model model) {
         boolean success = userService.loginUser(email, password);
 
+         User user = userService.loginUser(email, password);
+
+    if (user != null) {
+
+        if (user.getRole() == Role.ADMIN) {
+            return "redirect:/admin/dashboard";
+        }
+
+        return "redirect:/user/dashboard";
+    }
+
         if (success) {
-            // TODO: store user in session for a real login system
             return "redirect:/user/dashboard";
         } else {
             model.addAttribute("errorMessage", "Invalid email or password");

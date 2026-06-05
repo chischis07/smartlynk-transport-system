@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Register - Lux Transit</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="../static/css/styles.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
     <main class="auth-page">
       <section class="auth-shell wide">
         <div class="auth-head">
-          <a class="brand" href="LandingPage.html">
+          <a class="brand" th:href="@{/}">
             <span class="brand-mark"><i class="fas fa-bus"></i></span>
             <span>Lux Transit</span>
           </a>
@@ -20,77 +20,43 @@
         </div>
 
         <div class="card">
-          <button class="btn btn-ghost" onclick="navigateTo('LandingPage.html')"><i class="fas fa-arrow-left"></i> Back to Home</button>
+          <a class="btn btn-ghost" th:href="@{/}">
+            <i class="fas fa-arrow-left"></i> Back to Home
+          </a>
 
-          <form id="registerForm" class="form-grid" onsubmit="handleRegister(event)">
+
+          <!-- REPLACE <form> with Thymeleaf form -->
+          <form th:action="@{/register}" th:object="${user}" method="post" class="form-grid">
             <div class="form-row">
               <div class="field-group">
-                <label for="firstName" class="small">First Name</label>
-                <input id="firstName" class="field" autocomplete="given-name" required />
+                <label class="small">First Name</label>
+                <input th:field="*{firstname}" class="field" required />
+                <span th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}" style="color:red;"></span>
               </div>
               <div class="field-group">
-                <label for="lastName" class="small">Last Name</label>
-                <input id="lastName" class="field" autocomplete="family-name" required />
+                <label class="small">Last Name</label>
+                <input th:field="*{lastname}" class="field" required />
               </div>
             </div>
-
             <div class="field-group">
-              <label for="email" class="small">Email Address</label>
-              <input id="email" type="email" class="field" autocomplete="email" required />
+              <label class="small">Email</label>
+              <input th:field="*{email}" type="email" class="field" required />
+              <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red;"></span>
             </div>
-
-            <div class="form-row">
-              <div class="field-group">
-                <label for="phone" class="small">Phone Number</label>
-                <input id="phone" class="field" autocomplete="tel" placeholder="08012345678" required />
-              </div>
-              <div class="field-group">
-                <label for="state" class="small">State of Residence</label>
-                <select id="state" class="field" required>
-                  <option value="">Select your state</option>
-                  <option>Abia</option>
-                  <option>Abuja</option>
-                  <option>Lagos</option>
-                  <option>Rivers</option>
-                  <option>Kano</option>
-                </select>
-              </div>
+            <div class="field-group">
+              <label class="small">Password</label>
+              <input th:field="*{password}" type="password" class="field" required />
             </div>
-
-            <div class="form-row">
-              <div class="field-group">
-                <label for="password" class="small">Password</label>
-                <input id="password" type="password" class="field" autocomplete="new-password" required minlength="8" />
-              </div>
-              <div class="field-group">
-                <label for="confirmPassword" class="small">Confirm Password</label>
-                <input id="confirmPassword" type="password" class="field" autocomplete="new-password" required />
-              </div>
-            </div>
-
+            <p th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></p>
             <button type="submit" class="btn btn-primary btn-block">Create Account</button>
           </form>
 
-          <p class="small" style="text-align:center;">Already have an account? <button class="btn btn-ghost" onclick="navigateTo('login.html')">Login here</button></p>
+          <!-- REPLACE href="LandingPage.html" with th:href="@{/}" -->
+          <!-- REPLACE href="login.html" with th:href="@{/login}" -->
+
         </div>
       </section>
     </main>
 
-    <script>
-      function navigateTo(path) {
-        window.location.href = path;
-      }
-
-      function handleRegister(event) {
-        event.preventDefault();
-        const password = document.getElementById('password').value;
-        const confirm = document.getElementById('confirmPassword').value;
-        if (password !== confirm) {
-          alert('Passwords do not match');
-          return;
-        }
-        window.location.href = 'login.html?message=' + encodeURIComponent('Registration successful. Please login.');
-      }
-    </script>
   </body>
 </html>

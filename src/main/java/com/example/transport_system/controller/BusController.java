@@ -40,7 +40,7 @@ public class BusController {
             model.addAttribute("currentPage", page);
             model.addAttribute("totalPages", busPage.getTotalPages());
         }
-        return "buses"; // renders templates/buses.html
+        return "buses"; // renders templates/book-ride.html
     }
 
     @GetMapping("/admin/buses")
@@ -49,7 +49,7 @@ public class BusController {
         model.addAttribute("busPage", busPage);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", busPage.getTotalPages());
-        return "admin/buses"; // renders templates/admin/buses.html
+        return "admin/buses"; // renders templates/admin/book-ride.html
     }
 
     @GetMapping("/admin/buses/add")

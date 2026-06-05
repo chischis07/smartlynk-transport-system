@@ -15,10 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * Controller: AdminController
- * Handles the admin dashboard, login, and user management.
- */
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -39,27 +36,34 @@ public class AdminController {
     private RouteService routeService;
 
 
-    @GetMapping("/login")
+    @GetMapping("/admin/login")
     public String showAdminLoginForm() {
-        return "admin/login"; // renders templates/admin/login.html
+        return "admin/login";
     }
 
 
-    @PostMapping("/login")
-    public String adminLogin(@RequestParam String username,
-                             @RequestParam String password,
-                             Model model) {
-        boolean success = adminService.loginAdmin(username, password);
-        if (success) {
-            return "redirect:/admin/dashboard";
-        } else {
-            model.addAttribute("errorMessage", "Invalid username or password");
-            return "admin/login";
-        }
+    // @PostMapping("/admin/login")
+    // public String adminLogin(@RequestParam String username,
+    //                          @RequestParam String password,
+    //                          Model model) {
+    //     boolean success = adminService.loginAdmin(username, password);
+    //     if (success) {
+    //         return "redirect:/admin/dashboard";
+    //     } else {
+    //         model.addAttribute("errorMessage", "Invalid username or password");
+    //         return "admin/login";
+    //     }
+    // }
+
+
+    @GetMapping("/admin/dashboard")
+    public String adminDashboard(Model model, HttpSession session) {
+    // later we can enforce role check here
+    return "admin/dashboard";
     }
 
 
-    @GetMapping("/dashboard")
+    @GetMapping("/admin/dashboard")
     public String adminDashboard(Model model) {
         // Pass stats to the dashboard template
         model.addAttribute("totalBookings", bookingService.getTotalBookings());

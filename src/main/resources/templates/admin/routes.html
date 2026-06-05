@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Manage Routes - Smartlynk Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+    <div class="container nav-inner">
+        <a class="brand" th:href="@{/admin/dashboard}">
+            <span class="brand-mark"><i class="fas fa-bus"></i></span>
+            <span>Smartlynk Admin</span>
+            <span class="chip danger">Admin</span>
+        </a>
+        <div class="nav-actions">
+            <a class="btn btn-outline" th:href="@{/login}">Logout</a>
+        </div>
+    </div>
+</header>
+
+<main class="container layout-main">
+
+    <div class="page-title" style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+            <h1>Manage Routes</h1>
+            <p>Add and manage transport routes.</p>
+        </div>
+        <a th:href="@{/admin/routes/add}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add Route
+        </a>
+    </div>
+
+    <div class="tabs" style="margin-bottom:24px;">
+        <a th:href="@{/admin/dashboard}" class="btn tab">Dashboard</a>
+        <a th:href="@{/admin/buses}" class="btn tab">Buses</a>
+        <a th:href="@{/admin/routes}" class="btn tab is-active">Routes</a>
+        <a th:href="@{/admin/bookings}" class="btn tab">Bookings</a>
+        <a th:href="@{/admin/users}" class="btn tab">Users</a>
+    </div>
+
+    <section class="card table-wrap">
+        <p th:if="${routePage.totalElements == 0}" class="muted">No routes have been added yet.</p>
+        <table th:if="${routePage.totalElements > 0}">
+            <thead>
+            <tr>
+                <th>ID</th><th>Origin</th><th>Destination</th>
+                <th>Distance (km)</th><th>Price (₦)</th><th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="route : ${routePage.content}">
+                <td th:text="${route.routeId}"></td>
+                <td th:text="${route.origin}"></td>
+                <td th:text="${route.destination}"></td>
+                <td th:text="${route.distance}"></td>
+                <td th:text="${route.price}"></td>
+                <td>
+                    <a th:href="@{/admin/routes/edit/{id}(id=${route.routeId})}"
+                       class="btn btn-outline">Edit</a>
+                    <a th:href="@{/admin/routes/delete/{id}(id=${route.routeId})}"
+                       class="btn btn-outline"
+                       onclick="return confirm('Delete this route?')"
+                       style="margin-left:8px;">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Pagination -->
+    <div th:if="${totalPages > 1}" style="display:flex; gap:8px; margin-top:24px;">
+        <a th:if="${currentPage > 0}"
+           th:href="@{/admin/routes(page=${currentPage - 1})}"
+           class="btn btn-outline">Previous</a>
+        <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+            <a th:href="@{/admin/routes(page=${i})}"
+               th:text="${i + 1}"
+               th:classappend="${i == currentPage ? ' btn-primary' : ' btn-outline'}"
+               class="btn"></a>
+        </span>
+        <a th:if="${currentPage < totalPages - 1}"
+           th:href="@{/admin/routes(page=${currentPage + 1})}"
+           class="btn btn-outline">Next</a>
+    </div>
+
+</main>
+</body>
+</html>

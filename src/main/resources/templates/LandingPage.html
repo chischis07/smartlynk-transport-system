@@ -6,6 +6,7 @@
     <title>Smartlynk Transit - Travel Across Nigeria</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/styles.css" />
+
   </head>
   <body>
     <header class="topbar">
@@ -29,7 +30,7 @@
             <h1>Travel Across Nigeria In Comfort</h1>
             <p>Book reliable luxury coach trips between major cities and manage reservations from one simple dashboard.</p>
             <div class="hero-actions">
-              <a class="btn btn-primary" th:href="@{/book-ride}"><i class="fas fa-ticket"></i> Book a Ride</a>
+              <a class="btn btn-primary" th:href="@{/buses}"><i class="fas fa-ticket"></i> Book a Ride</a>
               <a class="btn btn-outline" th:href="@{/login}"><i class="fas fa-user"></i> View Dashboard</a>
             </div>
           </div>
@@ -41,7 +42,7 @@
                 <strong>Lagos to Abuja</strong>
                 <div class="route-meta">Luxury Coach - 8 hours</div>
               </div>
-              <button class="btn btn-primary" onclick="@{/book-ride}">Book</button>
+              <button class="btn btn-primary" th:href="@{/buses}">Book</button>
             </div>
             <div class="route-item">
               <div>
@@ -131,15 +132,5 @@
         <p class="small">Copyright 2026 Smartlynk Transit. All rights reserved.</p>
       </div>
     </footer>
-
-    <script>
-      function navigateTo(path) {
-        window.location.href = path;
-      }
-
-      function bookRideNow() {
-        navigateTo('book-ride.html');
-      }
-    </script>
   </body>
 </html>
